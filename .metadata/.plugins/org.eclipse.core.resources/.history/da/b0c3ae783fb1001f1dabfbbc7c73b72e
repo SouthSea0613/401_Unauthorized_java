@@ -1,0 +1,19 @@
+package service;
+
+import dto.Student;
+
+public class ScoreOper {
+
+	public int getAge(String birth) {
+		return 2024-Integer.parseInt(birth.substring(0,4));
+	}
+
+	public int getTotal(Student std) {
+		return std.getJava()+std.getOracle()+std.getWeb();
+	}
+
+	public double getAvg(int total, int i) {
+		return 0;
+	}
+
+}

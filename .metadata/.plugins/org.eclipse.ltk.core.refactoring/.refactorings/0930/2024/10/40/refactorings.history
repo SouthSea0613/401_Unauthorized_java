@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Ex01.java&apos; to &apos;part1.Ex01.java&apos;&#x0D;&#x0A;- Original project: &apos;0930&apos;&#x0D;&#x0A;- Destination element: &apos;part1.Ex01.java&apos;&#x0D;&#x0A;- Original element: &apos;part2.Ex01.java&apos;" description="Copy compilation unit" destination="=1002/src&lt;part1{Ex01.java" element1="/src&lt;part2{Ex01.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1727829980398" units="1" version="1.0"/>
+</session>

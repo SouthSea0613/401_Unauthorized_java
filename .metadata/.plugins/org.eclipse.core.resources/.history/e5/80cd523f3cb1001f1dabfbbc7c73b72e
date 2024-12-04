@@ -1,0 +1,21 @@
+package service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import dto.Student;
+
+public class ScoreService {
+	HttpServletRequest req;
+	HttpServletResponse resp;
+
+	public ScoreService(HttpServletRequest req, HttpServletResponse resp) {
+		this.req = req;
+		this.resp = resp;
+	}
+
+	public String execute(Student std) {
+		return null;
+	}
+
+}

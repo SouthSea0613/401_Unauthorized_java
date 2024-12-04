@@ -1,0 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>request.jsp - 이거 너무 싫어!!!!!!!!!!!!!!!!!!!!!!</h1>
+getRemoteHost: <%= request.getRemoteHost() %><br>
+getRemoteAddr: <%= request.getRemoteAddr() %><br>
+getProtocol: <%= request.getProtocol() %><br>
+getMethod: <%= request.getMethod()%><br>
+getMethod: <%= request.getMethod()%><br>
+getMethod: <%= request.getMethod()%><br>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>request_Form</h3>
+<form action="server.jsp">
+	<table border="1" width="300">
+		<tr>
+		<td>이름</td>
+		<td><input type="text" name="name"></td>
+		</tr>
+		<tr>
+		<td>성별</td>
+		<td>남<input type="radio" name="gender">
+		여<input type="radio" name="gender"></td>
+		</tr>
+		<tr>
+		<td>취미</td>
+		<td><input type="checkbox" name="hobby">독서
+		<input type="checkbox" name="hobby">유튜브
+		<input type="checkbox" name="hobby">축구
+		<input type="checkbox" name="hobby">기타
+		</td>
+		</tr>
+		
+	</table>
+	
+</form>
+</body>
+</html>

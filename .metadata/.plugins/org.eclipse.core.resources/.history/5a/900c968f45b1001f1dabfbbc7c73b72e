@@ -1,0 +1,57 @@
+package controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import dto.Student;
+import service.ScoreService;
+
+@WebServlet("/score")
+public class GradeController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cmd = req.getServletPath();
+		System.out.println("요청 cmd: " + cmd);
+
+		// 파라미터 수집
+		req.setCharacterEncoding("UTF-8");
+
+
+
+		String path = null;
+		
+
+		switch(cmd) {
+		case "/scorefrm":
+			path = ",/index.jsp";
+			break;
+		
+		case "/score":
+			String name = req.getParameter("name");
+			String birth = req.getParameter("birth");
+			int java = Integer.parseInt(req.getParameter("java"));
+			int oracle = Integer.parseInt(req.getParameter("oracle"));
+			int web = Integer.parseInt(req.getParameter("web"));
+			Student std = new Student();
+			std.setName(name);
+			std.setBirth(birth);
+			std.setJava(java);
+			std.setOracle(oracle);
+			std.setWeb(web);
+
+			ScoreService ss = new ScoreService(req,resp);
+			path = ss.execute(std); 
+			break;
+		}
+		
+		// 포워딩
+		req.getRequestDispatcher(path).forward(req, resp);
+
+	}
+}

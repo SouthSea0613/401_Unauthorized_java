@@ -1,0 +1,28 @@
+<%@page import="java.lang.ProcessBuilder.Redirect"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>나는 scope2</h2>
+	<%
+	request.setCharacterEncoding("UTF-8");
+	String id = request.getParameter("id");
+	String name = request.getParameter("name");
+	// 내장객체의 영역
+	request.setAttribute("id", "r_"+id);
+	request.setAttribute("name", "r_"+name);
+	
+	// request 보다 life cycle이 더 길어!!!!!
+	session.setAttribute("id", "s_"+id);
+	session.setAttribute("name", "s_"+name);
+	
+	// 포워딩
+	response.sendRedirect("scope3.jsp");  // 새로운 request 생성
+	%>
+</body>
+</html>

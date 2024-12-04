@@ -1,0 +1,39 @@
+package part1;
+
+public class Ex01 {
+	public static void main(String[] args) {
+		//메소드 오버로딩
+		Person person = new Person("cha",10,"인천송도",false);
+		person.setAge(person.getAge()+10);
+		person.setAdult(true);
+		
+		showData(person,3);
+		showData();
+		showData(10);
+		showData(10,20);
+		showData("aaaa");
+		//오버라이딩(상속)
+		
+	}
+	
+	private static void showData(Person person, int cnt) {
+		for(int i = 0; i < cnt; i++){
+			person.showInfo();
+		}
+	}
+	private static void showData() {
+		System.out.println("파라미터 없음");		
+	}
+	
+	private static void showData(String string) {
+		System.out.println(string);
+	}
+	
+	private static void showData(int i, int j) {
+		System.out.println(i+","+j);		
+	}
+	
+	private static void showData(int i) {
+		System.out.println("i = "+i);
+	}
+}

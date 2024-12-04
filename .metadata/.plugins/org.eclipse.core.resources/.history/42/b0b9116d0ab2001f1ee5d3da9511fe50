@@ -1,0 +1,19 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+//회원관리 DB서비스!
+
+public class MemberDao {
+	Connection con;
+	PreparedStatement pstmt;
+	ResultSet rs;
+	
+	
+	public void connect() {
+		con = JdbcUtil.getConnection();
+	}
+}
+

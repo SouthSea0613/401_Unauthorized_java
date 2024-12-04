@@ -1,0 +1,58 @@
+package controller;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import bean.PhoneInfo;
+import bean.PhoneUnivInfo;
+import common.JdbcUtil;
+
+public class PhoneBookDao {
+	Connection con;
+	PreparedStatement pstmt;
+	ResultSet rs;
+
+	public void insert(PhoneInfo phoneInfo) {
+		con = JdbcUtil.getConnect();
+		try {
+			String sql = "INSERT INTO PHONEBOOK (NAME, PHONE, KIND) VALUES (?, ?, 'N')";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, phoneInfo.getName());
+			pstmt.setString(2, phoneInfo.getNumber());
+			int result = pstmt.executeUpdate();
+			if (result != 0) {
+				System.out.println("INSERT 성공");
+			} else {
+				System.out.println("INSERT 실패");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt, con);
+		}
+	}
+
+	public void uinsert(PhoneUnivInfo univInputData) {
+		con = JdbcUtil.getConnect();
+		String sql = "INSERT INTO PHONEBOOK (NAME, PHONE, MAJOR, GRADE, KIND) VALUES (?, ?, ?, ?, 'U')";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, univInputData.getName());
+			pstmt.setString(2, univInputData.getNumber());
+			pstmt.setString(3, univInputData.getMajor());
+			pstmt.setInt(4, univInputData.getGrade());
+			int result = pstmt.executeUpdate();
+			if (result != 0) {
+				System.out.println("INSERT 성공");
+			} else {
+				System.out.println("INSERT 실패");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt, con);
+		}
+	} 
+}

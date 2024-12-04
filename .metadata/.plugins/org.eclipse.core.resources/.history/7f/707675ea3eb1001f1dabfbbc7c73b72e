@@ -1,0 +1,22 @@
+package service;
+
+import dto.Student;
+
+public class ScoreOper {
+
+	public int getAge(String birth) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getTotal(Student std) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public double getAvg(int total, int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

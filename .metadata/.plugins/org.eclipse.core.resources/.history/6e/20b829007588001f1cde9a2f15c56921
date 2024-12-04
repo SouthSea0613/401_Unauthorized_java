@@ -1,0 +1,19 @@
+package part2;
+
+public class TestClass {
+	
+	public static void main(String[] args) {
+//		TestClass tc = new TestClass();
+		int a = 1;
+		int b = 2;
+		
+		
+		System.out.println("a + b : " + a + b);
+		
+	}
+	
+	public void test1() {
+		
+	}
+
+}
