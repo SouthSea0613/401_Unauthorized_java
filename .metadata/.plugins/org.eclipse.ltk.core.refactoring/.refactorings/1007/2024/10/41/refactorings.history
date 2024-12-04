@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Encapsulate field &apos;part3.Ring.inner&apos; in &apos;part3.Ring&apos;&#x0D;&#x0A;- Original project: &apos;1007&apos;&#x0D;&#x0A;- Original element: &apos;part3.Ring.inner&apos;&#x0D;&#x0A;- Getter method name: &apos;getInner&apos;&#x0D;&#x0A;- Setter method name: &apos;setInner&apos;&#x0D;&#x0A;- Field visibility: &apos;public&apos;&#x0D;&#x0A;- Use getter and setter methods in declaring type" comments="false" declaring="true" description="Encapsulate field &apos;inner, ...&apos;" flags="589830" getter="getInner" id="org.eclipse.jdt.ui.self.encapsulate" input="/src&lt;part3{Ring.java[Ring^inner" insertion="-1" setter="setInner" stamp="1728287604023" version="1.0" visibility="1"/>
+</session>

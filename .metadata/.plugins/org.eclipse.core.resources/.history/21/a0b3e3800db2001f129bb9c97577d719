@@ -1,0 +1,27 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import dto.Member;
+
+//회원관리 DB 서비스
+public class MemberDao { 
+	Connection con;
+	PreparedStatement stmt;
+	ResultSet rs;
+	public void connect() {
+		con =JdbcUtill.connect();
+	}
+	public void close() {
+		JdbcUtill.close(rs);
+		JdbcUtill.close(con);
+		JdbcUtill.close(stmt);
+	}
+	public boolean join(Member member) {
+
+		return false;
+	}
+	
+}
