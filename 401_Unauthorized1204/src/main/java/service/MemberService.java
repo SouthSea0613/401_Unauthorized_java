@@ -95,7 +95,7 @@ public class MemberService {
 			
 			// 로그아웃 속성을 만들자
 			session.setAttribute("logout", makeLogoutHtml());
-			fw.setPath("./main.jsp");
+			fw.setPath("./boardlist");
 			fw.setRedirect(true);
 		} else {
 			req.setAttribute("msg", "로그인도 실패하고~");

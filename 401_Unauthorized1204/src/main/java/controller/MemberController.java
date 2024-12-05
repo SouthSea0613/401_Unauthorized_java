@@ -16,7 +16,7 @@ import dto.Forward;
 import service.MemberService;
 
 // "/" - 이건 쓰지마! 이유는 default servlet 정적리소스(이미 작업이 된 결과물)를 사용하고 있음.
-@WebServlet({ "/main", "/joinform", "/join", "/loginform", "/login", "/logout" })
+@WebServlet({ "/main", "/joinform", "/join", "/loginform", "/login", "/logout", "/boardlist" })
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -32,6 +32,17 @@ public class MemberController extends HttpServlet {
 
 		// String path = "null"; < 이거(path들) Foward클래스로 이사갔다
 		switch (cmd) {
+		case "/boardlist":
+			if(req.getSession().getAttribute("member") != null) {
+				fw = new Forward();
+				req.setAttribute("boardlist", "여러 게시글");
+				fw.setPath("./boardlist.jsp");
+				fw.setRedirect(false);
+			} else {
+				fw.setPath("./loginform.jsp");
+				fw.setRedirect(true);
+			}
+			break;
 
 		case "/main":
 			// 회원이면 main.jsp, 비회원 일 경우 loginform.jsp로 이동해보자!
