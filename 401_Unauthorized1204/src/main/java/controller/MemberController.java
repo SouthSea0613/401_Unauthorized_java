@@ -39,7 +39,12 @@ public class MemberController extends HttpServlet {
 			forward = memberService.join();
 			break;
 		case "/loginform":
-			forward = new Forward(false, "loginform.jsp");
+			if(req.getSession().getAttribute("member") != null) {
+				forward = new Forward(true, "./");
+			}
+			else {
+				forward = new Forward(false, "loginform.jsp");
+			}
 			break;
 		case "/login":
 			forward = memberService.login();
