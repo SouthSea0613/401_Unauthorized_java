@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.MemberDao;
+import dto.Forward;
 import dto.Member;
 
 // 회원관리 서비스 클래스
@@ -19,7 +20,7 @@ public class MemberService {
 		this.resp = resp;
 	}
 
-	public String join() {
+	public Forward join() {   // controller 포워딩 1번 방법일 때는 타입이 String이었어!
 		// 파라미터부터 수집하자!
 		String username = req.getParameter("username");
 		String userpw = req.getParameter("userpw");
@@ -39,39 +40,92 @@ public class MemberService {
 		mDao.setRequest(req);
 		boolean result = mDao.join(member);  // boolean으로 둔 것은 결과가 참이냐 거짓이냐로 따지기 좋으니까
 		mDao.close();
-		String path = null;
+		
+		Forward fw = new Forward();
 		if(result) {
-			req.setAttribute("msg", "축하해 회원가입 성공!");
-			path = "loginform.jsp";
+			fw.setPath("./loginform.jsp");
+			fw.setRedirect(true);  // true를 둠으로써 주소창이 바뀐다
 		} else {
-			req.setAttribute("msg", "다시해");
-			path = "joinform.jsp";
-		}
-		return path;
+			req.setAttribute("msg", "회원가입 실패다 임마!");
+			fw.setPath("./joinform.jsp");
+			fw.setRedirect(false); // 이거 true로 두면 메시지 속성 날라간다! 새로 객체를 만들어서 전송하니까 ㅠ_ㅠ
+		} return fw;
+		
+		
+// 		포워딩 1번이다
+//		String path = null;
+//		if(result) {
+//			req.setAttribute("msg", "축하해 회원가입 성공!");
+//			path = "loginform.jsp";
+//		} else {
+//			req.setAttribute("msg", "다시해");
+//			path = "joinform.jsp";
+//		}
+//		return path;
 	}
 
-	public String login() {
+	public Forward login() {
 		String username = req.getParameter("username");
 		String userpw = req.getParameter("userpw");
 		MemberDao mDao = new MemberDao();
-		mDao.connect();
+
 		HashMap <String,String> map = new HashMap<>();
 		map.put("username", username);
 		map.put("userpw", userpw);
-		boolean result = mDao.login(map);
-		String path = null;
-		if(result) {
-			// 세션 객체 가져오자!
-			HttpSession session = req.getSession();
-			session.setAttribute("username", username);
-			path="./main.jsp";
-		} else {
-			req.setAttribute("msg", "로그인 실패야");
-			path="./loginform.jsp";
-		}
+
+		mDao.connect();
+		
+		// 로그인만 성공하는거!
+		// boolean result = mDao.login(map);
+		// if(result) {  // 이건 로그인 성공만!
+		//	HttpSession session = req.getSession();
+		//	session.setAttribute("username", username);
+		//	fw.setPath("./main.jsp");
+		//	fw.setRedirect(true);
+
+		Member member = mDao.login(map);
 		mDao.close();
-//		System.out.println(username+","+userpw);
-		return path;
+		
+		// 마이페이지에 내 정보를 같이 가져가는 거!
+	    Forward fw = new Forward();
+		
+		if(member!=null) {
+ 			HttpSession session = req.getSession();
+			session.setAttribute("member", member);
+			
+			// 로그아웃 속성을 만들자
+			session.setAttribute("logout", makeLogoutHtml());
+			fw.setPath("./main.jsp");
+			fw.setRedirect(true);
+		} else {
+			req.setAttribute("msg", "로그인도 실패하고~");
+			fw.setPath("./loginform.jsp");
+			fw.setRedirect(false);
+			// 로그인하다가 실패했기 때문에 주소창에 그대로 login 있을거야
+			// req.getSession().removeAttribute("msg"); // 얘는 한 번만 뜨게 하는거야
+		} return fw;
+		
+//		포워딩 1번인거 알지?		
+//		String path = null;
+//		if(result) {
+//			// 세션 객체 가져오자!
+//			HttpSession session = req.getSession();
+//			session.setAttribute("username", username);
+//			path="./main.jsp";
+//		} else {
+//			req.setAttribute("msg", "로그인 실패야");
+//			path="./loginform.jsp";
+//		}
+//		return path;
+	}
+
+	// 로그아웃이야
+	private String makeLogoutHtml() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<div>");
+		sb.append("<a href=./logout>로그아웃</a>");
+		sb.append("<div>");		
+		return sb.toString();
 	}
 
 }

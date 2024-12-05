@@ -57,7 +57,9 @@ public class MemberDao {
 		}
 	}
 
-	public boolean login(HashMap<String, String> map) {
+	
+	// 결국 내 정보를 받는 메소드로 변경됐어... 로그인 성공만 하는게 궁금하다면 git을 보도록 하자
+	public Member login(HashMap<String, String> map) {
 		String sql = "SELECT * FROM MEMBER WHERE USERNAME = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -65,13 +67,19 @@ public class MemberDao {
 			rs = pstmt.executeQuery();
 			if (rs.next()) { // 아이디가 존재하면 만족!
 				if (rs.getString("userpw").equals(map.get("userpw"))) {
-					return true;
+					// 로그인 성공하게 되면 모든 회원정보 반환
+					Member mb = new Member();
+					mb.setUsername(rs.getString("username"));
+					mb.setUserpw(rs.getString("userpw"));
+					mb.setName(rs.getString("name"));
+					mb.setGender(rs.getString("gender"));
+					return mb;
 				}
 			}
 		} catch (SQLException e) {
 			System.out.println("login Dao에서 에러 발생");
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 }
