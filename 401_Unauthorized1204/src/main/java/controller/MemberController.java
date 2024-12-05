@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.Forward;
 import service.MemberService;
 
 // "/" default servlet 정적리소스 사용하기 위함. index.jsp
@@ -21,29 +22,36 @@ public class MemberController extends HttpServlet {
 		
 		String cmd = req.getServletPath();
 		
-		String path = null;
+		Forward forward = null;
 		switch (cmd) {
 		case "/main":
-			path = "index.jsp";
+			forward = new Forward(true, "index.jsp");
 			break;
 		case "/joinform": 
-			// 회원가입 창열기
-			path = "joinform.jsp";
+			forward = new Forward(false, "joinform.jsp");
 			break;
 		case "/join":
-			// db에 회원가입하기
-			path = memberService.join();
+			forward = memberService.join();
 			break;
 		case "/loginform":
-			// 로그인 창열기
-			path = "loginform.jsp";
+			forward = new Forward(false, "loginform.jsp");
 			break;
 		case "/login":
-			// db에 아이디 비밀번호 비교	
-			path = memberService.login();
+			forward = memberService.login();
+			break;
+		case "/logout":
+			req.getSession().invalidate();
+			forward = new Forward(true, "loginform.jsp");
 			break;
 		}
 		
-		req.getRequestDispatcher(path).forward(req, resp);
+		if (forward != null) {
+			if (forward.isRedirect()) {
+				resp.sendRedirect(forward.getPath());
+			}
+			else {
+				req.getRequestDispatcher(forward.getPath()).forward(req, resp);
+			}
+		}
 	}
 }

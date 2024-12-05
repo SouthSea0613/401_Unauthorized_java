@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.MemberDao;
+import dto.Forward;
 import dto.Member;
 
 public class MemberService {
@@ -17,7 +18,7 @@ public class MemberService {
 		this.resp = resp;
 	}
 
-	public String join() {
+	public Forward join() {
 		// Dto or HashMap로 데이터를 저장 > 뭔소리야 hashmap을 갑자기 왜쓰는데
 		Member member = new Member(req.getParameter("username"), req.getParameter("userPW"), req.getParameter("name"), req.getParameter("gender"));
 		
@@ -27,28 +28,30 @@ public class MemberService {
 		boolean result = memberDao.join(member);
 		memberDao.close();
 		if(result) {
-			return "loginform.jsp";
+			return new Forward(true, "loginform.jsp");
 		}
 		else {
-			return "joinform.jsp";
+			return new Forward(true, "joinform.jsp");
 		}
 	}
 
-	public String login() {
+	public Forward login() {
 		MemberDao memberDao = new MemberDao();
+		
 		memberDao.connect();
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("username", req.getParameter("username"));
 		map.put("userPW", req.getParameter("userPW"));
-		boolean result = memberDao.login(map);
+		Member member = memberDao.login(map);
 		memberDao.close();
-		if(result) {
-			req.getSession().setAttribute("id", req.getParameter("username"));
-			return "index.jsp";
+		if(member != null) {
+			req.getSession().setAttribute("user", member);
+			req.getSession().setAttribute("logout", "<div><a href='./logout'>로그아웃<a></div>");
+			return new Forward(true, "index.jsp");
 		}
 		else {
 			req.setAttribute("msg", "로그인 실패");
-			return "loginform.jsp";
+			return new Forward(false, "loginform.jsp");
 		}
 	}
 }

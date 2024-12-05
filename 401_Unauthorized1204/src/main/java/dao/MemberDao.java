@@ -33,12 +33,10 @@ public class MemberDao {
 			
 			int result = preparedStatement.executeUpdate();
 			if (result != 0) {
-				System.out.printf("join 성공");
 				JdbcUtill.commit(connection);
 				return true;
 			}
 			else {
-				System.out.printf("join 실패");
 				return false;
 			}
 		} 
@@ -48,27 +46,27 @@ public class MemberDao {
 		}
 	}
 
-	public boolean login(HashMap<String, String> map) {
+	public Member login(HashMap<String, String> map) {
 		try {
-			preparedStatement = connection.prepareStatement("SELECT USERPW FROM MEMBER WHERE USERNAME = ?");
+			preparedStatement = connection.prepareStatement("SELECT * FROM MEMBER WHERE USERNAME = ?");
 			preparedStatement.setString(1, map.get("username"));
 			
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				if (resultSet.getString("USERPW").equals(map.get("userPW"))) {
-					return true;
+					return new Member(resultSet.getString("USERNAME"), resultSet.getString("USERPW"), resultSet.getString("NAME"), resultSet.getString("GENDER"));
 				}
 				else {
-					return false;
+					return null;
 				}
 			}
 			else {
-				return false;
+				return null;
 			}
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 }
