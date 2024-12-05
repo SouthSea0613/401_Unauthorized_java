@@ -12,7 +12,7 @@ import dto.Forward;
 import service.MemberService;
 
 
-@WebServlet({"/main", "/joinfrm", "/join", "/loginfrm", "/login", "/logout"})  // "/" 로 main은 못 감 _ 기본적으로 서블릿(default servlet(정적))이 쓰고있음
+@WebServlet({"/boardlist", "/main", "/joinfrm", "/join", "/loginfrm", "/login", "/logout"})  // "/" 로 main은 못 감 _ 기본적으로 서블릿(default servlet(정적))이 쓰고있음
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -24,10 +24,37 @@ public class MemberController extends HttpServlet {
     	
     	//회원관리 서비스 클래스
     	MemberService mSer = new MemberService(req, resp);
+    	HttpSession session = null;
     	
     	Forward fw = null;
     	//String path = null;
     	switch(cmd) {
+    	
+    	case "/boardlist":
+    		if(req.getSession().getAttribute("member")!=null) {
+    			//DB가서 게시글 가져옴
+    			fw = new Forward();
+    			req.setAttribute("boardlist", "여러 게시글");
+    			fw.setPath("boardlist.jsp");
+    			fw.setRedirect(false);
+    		}else {
+    			fw.setPath("loginfrm.jsp");
+    			fw.setRedirect(true);
+    		}
+    		break;
+    	
+    	case "/main":
+    		fw = new Forward();
+    		//회원이면 main.jsp , 비회원이면 loginfrm.jsp
+    		session = req.getSession();
+    		if(session.getAttribute("member")!=null) {
+    			fw.setPath("main.jsp");
+    			fw.setRedirect(false);
+    		}else {
+    			fw.setPath("loginfrm.jsp");
+    			fw.setRedirect(true);
+    		}
+    		break;
     	
     	case "/joinfrm":
     		//회원가입 창 열기전에 인증확인
@@ -44,9 +71,16 @@ public class MemberController extends HttpServlet {
     		break;
     	
     	case "/loginfrm":
+    		System.out.println("check2");
+    		//로그인상태면 main.jsp , 로그인상태 아니면 loginfrm.jsp
     		fw = new Forward();
-    		fw.setPath("loginfrm.jsp");
-    		fw.setRedirect(false); 
+    		if(req.getSession().getAttribute("member")!=null) {
+    			fw.setPath("main.jsp");
+    			fw.setRedirect(true);
+    		}else {
+    			fw.setPath("loginfrm.jsp");
+    			fw.setRedirect(false);
+    		}
     		//path="loginfrm.jsp";
     		break;
     		
@@ -56,14 +90,13 @@ public class MemberController extends HttpServlet {
     		break;
     	
     	case "/logout":
-    		HttpSession session = req.getSession();
+    		session = req.getSession();
     		session.invalidate();
     		fw = new Forward();
-    		fw.setPath("loginfrm.jsp");
-    		fw.setRedirect(true);
-    		
+    		System.out.println("check1");
+    		fw.setPath("./loginfrm"); //컨트롤러 -> loginfrm.jsp
+    		fw.setRedirect(true);	
     	}
-    	
     	
     	if(fw!=null) {
     		if(fw.isRedirect()) {

@@ -72,9 +72,10 @@ public class MemberService {
 	      if(mb!=null) {
 	    	  //서버에서 세션객체 가져오기
 	    	  HttpSession session = req.getSession();
-	         session.setAttribute("member", mb);
+	    	  //인증(로그인) 했다는 마킹, 회원정보 출력, 인가확인
+	         session.setAttribute("member", mb);  //인가
 	         session.setAttribute("logout", makeLogoutHtml());
-	         fw.setPath("main.jsp");
+	         fw.setPath("./boardlist");
 	         fw.setRedirect(true);
 	      }
 	      else {

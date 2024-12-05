@@ -9,6 +9,7 @@ import java.util.HashMap;
 import dto.Member;
 
 //회원관리 DB 서비스
+//자바랑 sql 연동되는 것
 public class MemberDao { 
 	Connection con;
 	PreparedStatement stmt;
@@ -16,7 +17,6 @@ public class MemberDao {
 	
 	public void connect() {
 		con =JdbcUtill.connect();
-		
 	}
 	
 	public void close() {
@@ -45,16 +45,16 @@ public class MemberDao {
 			e.printStackTrace();
 		}
 		return false;
-		
 	}
+	
 	public Member login(HashMap<String, String> map) {
+		String sql = "SELECT * FROM MEMBER WHERE USERNAME=?";
 		try {
-			stmt=con.prepareStatement("SELECT * FROM MEMBER WHERE USERNAME=?");
+			stmt=con.prepareStatement(sql);
 			stmt.setString(1, map.get("username"));
 			rs = stmt.executeQuery();
 			
 			if(rs.next()) { //아이디 존재하면
-				System.out.println(map.get("userPW"));
 				if(rs.getString("USERPW").equals(map.get("userPW"))) {
 					//로그인 성공 , 모든 회원정보 반환
 					Member mb = new Member();
