@@ -122,9 +122,15 @@ public class MemberService {
 	// 로그아웃이야
 	private String makeLogoutHtml() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<div>");
-		sb.append("<a href=./logout>로그아웃</a>");
-		sb.append("<div>");		
+		sb.append("<form action = './logout' method = 'post'>");
+		sb.append("<button>로그아웃</button");
+		sb.append("</form>");
+		
+		
+		// 이것도 가능하고
+//		sb.append("<div>");
+//		sb.append("<a href=./logout>로그아웃</a>");
+//		sb.append("<div>");		
 		return sb.toString();
 	}
 
