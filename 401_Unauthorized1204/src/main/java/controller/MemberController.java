@@ -23,6 +23,9 @@ public class MemberController extends HttpServlet {
 		
 		String path = null;
 		switch (cmd) {
+		case "/main":
+			path = "index.jsp";
+			break;
 		case "/joinform": 
 			// 회원가입 창열기
 			path = "joinform.jsp";

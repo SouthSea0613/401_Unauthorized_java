@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 import dto.Member;
 
@@ -13,14 +12,9 @@ public class MemberDao {
 	Connection connection;
 	PreparedStatement preparedStatement;
 	ResultSet resultSet;
-	HttpServletRequest req;
 	
 	public void connect() {
 		connection = JdbcUtill.connect();
-	}
-	
-	public void setRequest(HttpServletRequest req) {
-		this.req = req;
 	}
 	
 	public void close() {
@@ -32,7 +26,6 @@ public class MemberDao {
 	public boolean join(Member member) {
 		try {
 			preparedStatement = connection.prepareStatement("INSERT INTO MEMBER VALUES(?, ?, ?, ?)");
-			
 			preparedStatement.setString(1, member.getUsername());
 			preparedStatement.setString(2, member.getUserPW());
 			preparedStatement.setString(3, member.getName());
@@ -42,14 +35,38 @@ public class MemberDao {
 			if (result != 0) {
 				System.out.printf("join 성공");
 				JdbcUtill.commit(connection);
-				req.setAttribute("name", member.getName());
 				return true;
 			}
 			else {
 				System.out.printf("join 실패");
 				return false;
 			}
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean login(HashMap<String, String> map) {
+		try {
+			preparedStatement = connection.prepareStatement("SELECT USERPW FROM MEMBER WHERE USERNAME = ?");
+			preparedStatement.setString(1, map.get("username"));
+			
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				if (resultSet.getString("USERPW").equals(map.get("userPW"))) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				return false;
+			}
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}

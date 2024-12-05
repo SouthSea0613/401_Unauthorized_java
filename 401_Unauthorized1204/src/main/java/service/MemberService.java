@@ -1,5 +1,7 @@
 package service;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,18 +18,12 @@ public class MemberService {
 	}
 
 	public String join() {
-		String username = req.getParameter("username");
-		String userPW = req.getParameter("userPW");
-		String name = req.getParameter("name");
-		String gender = req.getParameter("gender");
-		
-		// Dto or HashMap로 데이터를 저장
-		Member member = new Member(username, userPW, name, gender);
+		// Dto or HashMap로 데이터를 저장 > 뭔소리야 hashmap을 갑자기 왜쓰는데
+		Member member = new Member(req.getParameter("username"), req.getParameter("userPW"), req.getParameter("name"), req.getParameter("gender"));
 		
 		// 회원관리 DB로직
 		MemberDao memberDao = new MemberDao();
 		memberDao.connect();
-		memberDao.setRequest(req);
 		boolean result = memberDao.join(member);
 		memberDao.close();
 		if(result) {
@@ -39,6 +35,20 @@ public class MemberService {
 	}
 
 	public String login() {
-		return null;
+		MemberDao memberDao = new MemberDao();
+		memberDao.connect();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("username", req.getParameter("username"));
+		map.put("userPW", req.getParameter("userPW"));
+		boolean result = memberDao.login(map);
+		memberDao.close();
+		if(result) {
+			req.getSession().setAttribute("id", req.getParameter("username"));
+			return "index.jsp";
+		}
+		else {
+			req.setAttribute("msg", "로그인 실패");
+			return "loginform.jsp";
+		}
 	}
 }
