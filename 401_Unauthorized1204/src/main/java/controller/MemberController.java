@@ -12,7 +12,7 @@ import dto.Forward;
 import service.MemberService;
 
 // "/" default servlet 정적리소스 사용하기 위함.
-@WebServlet({ "/main", "/joinfrm", "/join", "/loginfrm", "/login", "/logout" })
+@WebServlet({ "/main", "/joinfrm", "/join", "/loginfrm", "/login", "/logout","/boardlist" })
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -24,11 +24,22 @@ public class MemberController extends HttpServlet {
 		//String path = null;
 
 		MemberService mSer = new MemberService(req, resp);
-		HttpSession session = null;
+		HttpSession session = req.getSession();
 		
 		Forward fw = null;
 		fw = new Forward();
 		switch (cmd) {
+		case "/boardlist" :
+			if(session.getAttribute("member")!=null) {
+				req.setAttribute("boardlist", "여러 게시글");
+				fw=new Forward();
+				fw.setPath("boardlist.jsp");
+				fw.setRedirect(false);
+			}else {
+				fw.setPath("loginfrm.jsp");
+				fw.setRedirect(true);
+			}
+		
 		case "/main":
 			//회원이면 main.jsp, 비회원이면 loginftm.jsp
 			session = req.getSession();
