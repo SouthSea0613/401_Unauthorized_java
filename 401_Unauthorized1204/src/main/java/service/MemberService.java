@@ -37,9 +37,11 @@ public class MemberService {
 		mDao.connect();
 //		mDao.setRequest(req);
 		
-		Forward fw = new Forward();
 		boolean result = mDao.join(member);
+		mDao.close();
+		Forward fw = new Forward();
 		if(result) {
+			req.setAttribute("msg", "회원가입 성공");
 			fw.setPath("loginfrm.jsp");
 			fw.setRedirect(true);
 //			return "loginfrm.jsp";
@@ -54,23 +56,24 @@ public class MemberService {
 
 	public Forward login() {
 		String username = req.getParameter("username");
-		String userpw = req.getParameter("userpw");
-		MemberDao memberDao = new MemberDao();
-	      memberDao.connect();
+		String userpw = req.getParameter("userPW");
+		
+		//DB로직: DAO, repository class
+		MemberDao mDao = new MemberDao();
+	      mDao.connect();
 	      
-	      HashMap<String, String> map = new HashMap<String, String>();
+	      HashMap<String, String> map = new HashMap<>();
 	      map.put("username", username);
 	      map.put("userPW", userpw);
-	      
-	      boolean result = memberDao.login(map);
-	      memberDao.close();
+	      Member mb = mDao.login(map);
+	      mDao.close();
 	      
 	      Forward fw = new Forward();
-	      if(result) {
-	    	  System.out.println("check");
+	      if(mb!=null) {
 	    	  //서버에서 세션객체 가져오기
 	    	  HttpSession session = req.getSession();
-	         session.setAttribute("id", username);
+	         session.setAttribute("member", mb);
+	         session.setAttribute("logout", makeLogoutHtml());
 	         fw.setPath("main.jsp");
 	         fw.setRedirect(true);
 	      }
@@ -81,4 +84,12 @@ public class MemberService {
 	      }
 	      return fw;
 	   }
+
+	private Object makeLogoutHtml() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<form action='./logout' method='post'>");
+		sb.append("<button>로그아웃</button>");
+		sb.append("</form>");
+		return sb.toString();
+		}
 	}
