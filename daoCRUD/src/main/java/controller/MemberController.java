@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import dto.Forward;
 import service.MemberService;
 
-@WebServlet({ "/joinform", "/join", "/loginform", "/login", "/memberlist", "/adminpage" })
+@WebServlet({ "/joinform", "/join", "/loginform", "/login", "/memberinfo", "/adminpage" })
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -38,19 +38,26 @@ public class MemberController extends HttpServlet {
 
 		case "/loginform":
 			forward = new Forward();
+			if(req.getSession().getAttribute("members") != null) {
+				forward.setPath("./");
+				forward.setRedirect(false);
+			} else {
+				forward.setPath("./loginform.jsp");
+				forward.setRedirect(true);
+			}
 			break;
 
-//		case "/login":
-//
-//			break;
-//
-//		case "/memberlist":
-//
-//			break;
-//
-//		case "/adminpage":
-//
-//			break;
+		case "/login":
+			forward = memberservice.login();
+			break;
+
+		case "/memberlist":
+
+			break;
+
+		case "/adminpage":
+
+			break;
 		}
 		
 		if(forward != null) {

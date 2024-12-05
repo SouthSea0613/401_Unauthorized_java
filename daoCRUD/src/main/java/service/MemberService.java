@@ -2,6 +2,7 @@ package service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.MemberDao;
 import dto.Forward;
@@ -44,4 +45,30 @@ public class MemberService {
 		return forward;
 	}
 
+	public Forward login() {
+		String username = req.getParameter("username");
+		String userpassword = req.getParameter("userpassword");
+		
+		MemberDao memDao = new MemberDao();
+		memDao.connet();
+		boolean result = memDao.login(username, userpassword);
+		memDao.close();
+		
+		Forward forward = new Forward();
+		if(result) {
+			HttpSession session = req.getSession();
+			session.setAttribute("username", username);
+			if(username.equals("aaa")) {
+				forward.setPath("./adminpage.jsp");
+				forward.setRedirect(true);
+			} else {
+				forward.setPath("./memberinfo.jsp");
+				forward.setRedirect(true);
+			}
+		} else {
+			forward.setPath("./loginform.jsp");
+			forward.setRedirect(true);
+		}
+		return forward;
+	}
 }

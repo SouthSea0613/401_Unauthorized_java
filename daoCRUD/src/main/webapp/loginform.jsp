@@ -15,7 +15,7 @@
 	<h1>이제 로그인을 하도록 하자</h1>
 	<form action="./login" method = "post">  <!-- post는 보안도 가능하지만 용량이 큰 것도 가능! -->
 		아이디 : <input type="text" name="username"><br> 
-		비번 : <input type="password" name="userpw"><br>
+		비번 : <input type="password" name="userpassword"><br>
 		<button>로그인</button>
 		<a href="./joinform.jsp">회원가입</a>
 	</form>

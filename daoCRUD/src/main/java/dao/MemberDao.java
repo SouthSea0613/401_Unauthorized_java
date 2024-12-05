@@ -51,4 +51,26 @@ public class MemberDao {
 		}
 	}
 
+	public boolean login(String username, String userpassword) {
+		String sql = "SELECT * FROM MEMBERS WHERE USERNAME = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, username);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {	// 로그인 하려는 아이디가 테이블에 존재함
+				if(rs.getString("userpassword").equals(userpassword)) {
+					return true;
+				} else {
+					return false;
+				}
+			} else { // 여긴 아이디가 없는거야!
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			JdbcUtil.close(rs, pstmt, con);
+		}
+	}
 }

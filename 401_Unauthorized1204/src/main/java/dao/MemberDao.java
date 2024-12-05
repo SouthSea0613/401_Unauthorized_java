@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -58,5 +59,10 @@ public class MemberDao {
 		} finally {
 			JdbcUtil.close(rs, pstmt, con);
 		}
+	}
+
+	public Member login(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
