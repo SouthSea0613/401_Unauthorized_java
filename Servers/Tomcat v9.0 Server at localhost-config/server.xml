@@ -162,7 +162,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="401_Unauthorized1204" path="/401_Unauthorized1204" reloadable="true" source="org.eclipse.jst.jee.server:401_Unauthorized1204"/></Host>
+      <Context docBase="daoCRUD.1205" path="/daoCRUD.1205" reloadable="true" source="org.eclipse.jst.jee.server:daoCRUD.1205"/></Host>
     </Engine>
   </Service>
 </Server>
