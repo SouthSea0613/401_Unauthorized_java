@@ -22,10 +22,6 @@ public class MemberDao {
 		
 	}
 	
-	public void setRequest(HttpServletRequest req) {
-		this.req = req;
-	}
-	
 	public void close() {
 		JdbcUtill.close(rs);
 		JdbcUtill.close(con);
@@ -40,10 +36,9 @@ public class MemberDao {
 			stmt.setString(3, member.getIrum());
 			stmt.setString(4, member.getGender());
 			int result = stmt.executeUpdate(); // insert, update, delete
-			if(result>0) {
+			if(result!=0) {
 				System.out.println("join Dao 성공");
 				JdbcUtill.commit(con);
-				req.setAttribute("name", member.getIrum());
 				return true;
 			}else {
 				System.out.println("join Dao 실패");
@@ -56,7 +51,7 @@ public class MemberDao {
 		
 	}
 	public boolean login(HashMap<String, String> map) {
-		String sql = "SELECT USERNAME, USERPW FROM MEMBER WHERE USERNAME=?";
+		String sql = "SELECT USERPW FROM MEMBER WHERE USERNAME=?";
 		try {
 			stmt=con.prepareStatement(sql);
 			stmt.setString(1, map.get("username"));

@@ -4,8 +4,10 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.MemberDao;
+import dto.Forward;
 import dto.Member;
 
 public class MemberService {
@@ -17,7 +19,7 @@ public class MemberService {
 		this.resq=resp;
 	}
 
-	public String join() {
+	public Forward join() {
 		//파라미터 수집
 		String username = req.getParameter("username");
 		String userpw = req.getParameter("userpw");
@@ -35,31 +37,48 @@ public class MemberService {
 		mDao.connect();
 //		mDao.setRequest(req);
 		
-		
+		Forward fw = new Forward();
 		boolean result = mDao.join(member);
 		if(result) {
-			return "loginfrm.jsp";
+			fw.setPath("loginfrm.jsp");
+			fw.setRedirect(true);
+//			return "loginfrm.jsp";
+		}else {
+			req.setAttribute("msg", "회원가입 실패");
+			fw.setPath("joinfrm.jsp");
+			fw.setRedirect(false);
 		}
-		return "joinfrm.jsp";
+		return fw;
+//		return "joinfrm.jsp";
 	}
 
-	public String login() {
+	public Forward login() {
+		String username = req.getParameter("username");
+		String userpw = req.getParameter("userpw");
 		MemberDao memberDao = new MemberDao();
 	      memberDao.connect();
 	      
 	      HashMap<String, String> map = new HashMap<String, String>();
-	      map.put("username", req.getParameter("username"));
-	      map.put("userPW", req.getParameter("userPW"));
+	      map.put("username", username);
+	      map.put("userPW", userpw);
 	      
 	      boolean result = memberDao.login(map);
 	      memberDao.close();
+	      
+	      Forward fw = new Forward();
 	      if(result) {
-	         req.getSession().setAttribute("id", req.getParameter("username"));
-	         return "main.jsp";
+	    	  System.out.println("check");
+	    	  //서버에서 세션객체 가져오기
+	    	  HttpSession session = req.getSession();
+	         session.setAttribute("id", username);
+	         fw.setPath("main.jsp");
+	         fw.setRedirect(true);
 	      }
 	      else {
 	         req.setAttribute("msg", "로그인 실패");
-	         return "loginfrm.jsp";
+	         fw.setPath("loginfrm.jsp");
+	         fw.setRedirect(false);
 	      }
+	      return fw;
 	   }
 	}

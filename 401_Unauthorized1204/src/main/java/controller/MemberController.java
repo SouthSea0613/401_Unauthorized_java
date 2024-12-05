@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.Forward;
 import service.MemberService;
 
 
@@ -23,30 +24,47 @@ public class MemberController extends HttpServlet {
     	//회원관리 서비스 클래스
     	MemberService mSer = new MemberService(req, resp);
     	
-    	
-    	String path = null;
+    	Forward fw = null;
+    	//String path = null;
     	switch(cmd) {
     	
     	case "/joinfrm":
     		//회원가입 창 열기전에 인증확인
-    		path = "joinfrm.jsp";
+    		fw = new Forward();
+    		fw.setPath("joinfrm.jsp");
+    		fw.setRedirect(false); 
+//    		path = "joinfrm.jsp";
     		break;
     		
     	case "/join":
     		//DB에 회원가입 하기
-    		path = mSer.join(); //회원가입 성공: loginfrm.jsp , 실패: joinfrm.jsp
+    		fw = mSer.join();
+    		//path = mSer.join(); //회원가입 성공: loginfrm.jsp , 실패: joinfrm.jsp
     		break;
     	
     	case "/loginfrm":
-    		path="loginfrm.jsp";
+    		fw = new Forward();
+    		fw.setPath("loginfrm.jsp");
+    		fw.setRedirect(false); 
+    		//path="loginfrm.jsp";
     		break;
     		
     	case "/login":
-    		path=mSer.login();
+    		fw = mSer.login();
+    		//path=mSer.login();
     		break;
     	}
     	
+    	
+    	if(fw!=null) {
+    		if(fw.isRedirect()) {
+    			resp.sendRedirect(fw.getPath());
+    		}else {
+    			req.getRequestDispatcher(fw.getPath()).forward(req, resp);
+    		}
+    	}
     	//포워딩
-    	req.getRequestDispatcher(path).forward(req, resp);
+//    	req.getRequestDispatcher(path).forward(req, resp);
+//    	resp.sendRedirect(path);
     }
 }
