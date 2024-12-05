@@ -25,7 +25,12 @@ public class MemberController extends HttpServlet {
 		Forward forward = null;
 		switch (cmd) {
 		case "/main":
-			forward = new Forward(true, "index.jsp");
+			if (req.getSession().getAttribute("member") != null) {
+				forward = new Forward(false, "index.jsp");
+			}
+			else {
+				forward = new Forward(true, "loginform.jsp");
+			}
 			break;
 		case "/joinform": 
 			forward = new Forward(false, "joinform.jsp");

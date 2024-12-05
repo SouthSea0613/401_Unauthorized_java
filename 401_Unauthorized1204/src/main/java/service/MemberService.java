@@ -46,7 +46,7 @@ public class MemberService {
 		memberDao.close();
 		if(member != null) {
 			req.getSession().setAttribute("user", member);
-			req.getSession().setAttribute("logout", "<div><a href='./logout'>로그아웃<a></div>");
+			req.getSession().setAttribute("logout", "<form action='./logout' method='post'><button>로그아웃</button></form>");
 			return new Forward(true, "index.jsp");
 		}
 		else {
