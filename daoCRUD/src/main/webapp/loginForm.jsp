@@ -10,7 +10,7 @@
 	</head>
 	
 	<body>
-		<h1>loginform.jsp - 로그인 양식</h1>
+		<h1>loginForm.jsp - 로그인 양식</h1>
 		<form action="./login" method="post">
 			아이디 : <input type="text" name="userName"><br>
 			비밀번호 : <input type="password" name="userPW"><br>

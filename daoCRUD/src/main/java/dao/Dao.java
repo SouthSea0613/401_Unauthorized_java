@@ -85,4 +85,24 @@ public class Dao {
 			return null;
 		}
 	}
+
+	public boolean deleteMember(String username) {
+		try {
+			preparedStatement = connection.prepareStatement("DELETE FROM MEMBER WHERE USERNAME = ?");
+			preparedStatement.setString(1, username);
+			
+			int result = preparedStatement.executeUpdate();
+			if (result != 0)
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

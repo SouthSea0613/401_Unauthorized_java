@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dao.Dao;
 import dto.Forward;
 import dto.Member;
@@ -33,7 +36,7 @@ public class Service {
 		
 		if (member != null) {	// 로그인 성공
 			request.getSession().setAttribute("userName", member.getUsername());
-						
+			
 			if (request.getSession().getAttribute("userName").toString().equals("admin")) {	// 로그인했는데 아이디가 admin인 경우
 				request.getSession().setAttribute("button", "<div><a href=\"./admin\">전체 회원 정보 확인</a></div>");
 			}
@@ -43,7 +46,7 @@ public class Service {
 			return new Forward(false, "index.jsp");
 		}
 		else {	// db에서 select했는데 아무것도 없음 = 로그인 실패
-			return new Forward(true, "loginform.jsp");
+			return new Forward(true, "loginForm.jsp");
 		}
 	}
 	
@@ -70,8 +73,16 @@ public class Service {
 		dao.close();
 		
 		if(users != null) {
-			request.getSession().setAttribute("usersInfo", makeIdListHtml(users));
-			request.setAttribute("usersList",users);
+			request.getSession().setAttribute("usersInfo", makeIdListHtml(users));	// #1
+			
+			request.setAttribute("usersList",users);	// #2
+			
+			try {
+				request.setAttribute("usersListJson", new ObjectMapper().writeValueAsString(users));	// #3
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			
 			return new Forward(false, "admin.jsp");
 		}
 		else {
@@ -104,10 +115,24 @@ public class Service {
 		
 		if(user != null) {
 			request.getSession().setAttribute("userInfo", user);
-			return new Forward(false, "admin_normal.jsp");
+			return new Forward(false, "normal.jsp");
 		}
 		else {
 			return new Forward(true, "index.jsp");
 		}	
+	}
+
+	public Forward userDelete() {
+		Dao dao = new Dao();
+		dao.connect();
+		boolean result = dao.deleteMember(request.getParameter("username"));
+		dao.close();
+		
+		if(result) {
+			return new Forward(false, "admin?username=" + request.getSession().getAttribute("username"));
+		}
+		else {
+			return new Forward(true, "index.jsp");
+		}
 	}
 }

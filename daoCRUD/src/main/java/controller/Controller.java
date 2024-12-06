@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import dto.Forward;
 import service.Service;
 
-@WebServlet({"/main", "/loginForm", "/login", "/admin", "/normal", "/admin_normal", "/logout"})
+@WebServlet({"/main", "/loginForm", "/login", "/normal", "/admin", "/delete", "/logout"})
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -23,7 +23,7 @@ public class Controller extends HttpServlet {
 		Forward forward = null;
 		switch (req.getServletPath()) {
 		case "/main":
-			
+			forward = new Forward(true, "index.jsp");
 			break;
 		case "/loginForm":
 			if(req.getSession().getAttribute("userName") != null) {
@@ -33,7 +33,6 @@ public class Controller extends HttpServlet {
 				forward = new Forward(false, "loginForm.jsp");
 			}
 			break;
-//			forward = new Forward(false, getServletInfo());
 		case "/login":
 			forward = service.login();
 			break;
@@ -42,6 +41,9 @@ public class Controller extends HttpServlet {
 			break;
 		case "/admin":
 			forward = service.userList();
+			break;
+		case "/delete":
+			forward = service.userDelete();
 			break;
 		case "/logout":
 			req.getSession().invalidate();
