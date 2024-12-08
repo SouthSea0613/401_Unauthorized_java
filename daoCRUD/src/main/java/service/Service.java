@@ -75,7 +75,7 @@ public class Service {
 		if(users != null) {
 			request.getSession().setAttribute("usersInfo", makeIdListHtml(users));	// #1
 			
-			request.setAttribute("usersList",users);	// #2
+			request.setAttribute("usersList", users);	// #2
 			
 			try {
 				request.setAttribute("usersListJson", new ObjectMapper().writeValueAsString(users));	// #3
