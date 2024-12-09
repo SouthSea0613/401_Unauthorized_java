@@ -7,6 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<h1>joinfrm.jsp - 회원가입</h1>
+<form action="./join" method="post">
+	아이디 : <input type="text" name="id"> <br>
+	비밀번호 : <input type="password" name="pw"> <br>
+	이름 : <input type="text" name="irum"><br>
+			<button>회원가입</button>
+			</form>
 </body>
 </html>

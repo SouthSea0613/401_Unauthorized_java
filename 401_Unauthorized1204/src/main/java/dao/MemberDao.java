@@ -26,8 +26,9 @@ public class MemberDao {
 		JdbcUtil.close(rs, stmt, con);
 
 	}
+
 	public void setRequest(HttpServletRequest req) {
-		this.req=req;
+		this.req = req;
 	}
 
 	public boolean join(Member member) {
@@ -38,9 +39,9 @@ public class MemberDao {
 			stmt.setString(2, member.getUserpw());
 			stmt.setString(3, member.getIrum());
 			stmt.setString(4, member.getGender());
-			
+
 			req.setAttribute("name", member.getIrum());
-			
+
 			int result = stmt.executeUpdate();// insert, update, delete
 			if (result > 0) {
 				System.out.println("join Dao 성공");
@@ -58,19 +59,19 @@ public class MemberDao {
 	public Member login(HashMap<String, String> map) {
 		String sql = "select * from member where username=?";
 		try {
-			stmt=con.prepareStatement(sql);
+			stmt = con.prepareStatement(sql);
 			stmt.setString(1, map.get("username"));
-			rs=stmt.executeQuery();
-			if(rs.next()) { //아이디가 존재하면
-				if(rs.getString("userpw").equals(map.get("userpw"))) {
-					//로그인 성공
+			rs = stmt.executeQuery();
+			if (rs.next()) { // 아이디가 존재하면
+				if (rs.getString("userpw").equals(map.get("userpw"))) {
+					// 로그인 성공
 					Member mb = new Member();
 					mb.setUsername(rs.getString("username"));
 					mb.setUserpw(rs.getString("userpw"));
 					mb.setIrum(rs.getString("irum"));
 					mb.setGender(rs.getString("gender"));
 					return mb;
-				}		
+				}
 			}
 		} catch (SQLException e) {
 			System.out.println("login dao 예외발생");
@@ -78,6 +79,5 @@ public class MemberDao {
 		}
 		return null;
 	}
-	
 
 }
