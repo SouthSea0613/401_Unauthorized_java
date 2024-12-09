@@ -6,14 +6,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dto.Forward;
-import service.MService;
 
 
-
-@WebServlet({"/joinform","/join","/loginform","/login","/adminpage","/memberlist"})
+@WebServlet("/Controller")
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -23,42 +20,27 @@ protected void service(HttpServletRequest req, HttpServletResponse resp) throws 
 		String cmd = req.getServletPath();
 		System.out.println("cmd="+cmd);
 		
-		MService mSer = new MService(req, resp);
-		HttpSession session = req.getSession();
-		
-		Forward fw = null;
+		Forward fw =null;
 		switch (cmd) {
-		case "/joinform" :
+		case "/joinfrm" :
 			fw = new Forward();
-			fw.setPath("joinform.jsp");
+			fw.setPath("joinfrm.jsp");
 			fw.setRedirect(false);
 			break;
-		case "/join" :
-			fw = mSer.join();
-			break;
-		case "/loginform" : 
+			
+		case "/loginfrm" : 
 		     fw = new Forward();
 		     if(req.getSession().getAttribute("member")!=null) {
 		    	 fw.setPath("./");
 		    	 fw.setRedirect(false);
 		    	 }else {
-		    	 fw.setPath("loginform.jsp");
-		    	 fw.setRedirect(true);
+		    	 fw.setPath("loginfrm.jsp");
+		    	 fw.setRedirect(false);
+		    		 
 		    	 }
-		     break;
-		case "/login" : 
-			fw = mSer.login();
-			break;
+			
 		}
-		if(fw!=null) {
-			if(fw.isRedirect()) {
-				resp.sendRedirect(fw.getPath());
-			}else {
-				req.getRequestDispatcher(fw.getPath()).forward(req, resp);
-			}
-		}
-	}
-		
+}
 	
 	}
 

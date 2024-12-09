@@ -74,8 +74,7 @@ public class MemberService {
 			//인증했다는 마깅, 회원정보 출력
 			session.setAttribute("member", member);
 			session.setAttribute("logout", makeLogoutHtml());
-			//fw.setPath("main.jsp");
-			fw.setPath("./boardlist");
+			fw.setPath("main.jsp");
 			fw.setRedirect(true);
 			// path="./main.jsp";
 		} else {
