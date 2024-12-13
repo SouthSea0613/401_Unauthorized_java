@@ -47,6 +47,18 @@ public class Service {
 		
 		return "memberlist";
 	}
+	
+	public String setGrade(String grade) {
+		switch(grade) {
+		case "A":
+			return "VIP";
+		case "B":
+			return "일반";
+		case "C":
+			return "직원";
+		}
+		return null;
+	}
 
 	public String memberList() {
 		Dao dao = new Dao();
@@ -62,8 +74,8 @@ public class Service {
 			memberStringBuilder.append("<td>"+ customer.getCustname() +"</td>");	
 			memberStringBuilder.append("<td>"+ customer.getPhone() +"</td>");	
 			memberStringBuilder.append("<td>"+ customer.getAddress() +"</td>");	
-			memberStringBuilder.append("<td>"+ customer.getJoindate() +"</td>");	
-			memberStringBuilder.append("<td>"+ customer.getGrade() +"</td>");	
+			memberStringBuilder.append("<td>"+ customer.getJoindate() +"</td>");
+			memberStringBuilder.append("<td>"+ setGrade(customer.getGrade()) +"</td>");	
 			memberStringBuilder.append("<td>"+ customer.getCity() +"</td>");	
 			memberStringBuilder.append("</tr>");
 		}
@@ -84,7 +96,7 @@ public class Service {
 			memberStringBuilder.append("<tr>");
 			memberStringBuilder.append("<td>"+ sale.getCustno() +"</td>");	
 			memberStringBuilder.append("<td>"+ sale.getCustname() +"</td>");	
-			memberStringBuilder.append("<td>"+ sale.getGrade() +"</td>");	
+			memberStringBuilder.append("<td>"+ setGrade(sale.getGrade()) +"</td>");	
 			memberStringBuilder.append("<td>"+ sale.getTotalSales() +"</td>");	
 			memberStringBuilder.append("</tr>");
 		}

@@ -25,6 +25,7 @@ public class Dao {
 	}
 	
 	public int getCustno() {
+		String sql = "SELECT COUNT(*) AS CUSTNO FROM MEMBER_TBL_02";
 		try {
 			preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS CUSTNO FROM MEMBER_TBL_02");
 		 	resultSet = preparedStatement.executeQuery();
@@ -60,7 +61,7 @@ public class Dao {
 		ArrayList<Customer> memberArrayList = new ArrayList<Customer>();
 		
 		try {
-			preparedStatement = connection.prepareStatement("SELECT * FROM MEMBER_TBL_02");
+			preparedStatement = connection.prepareStatement("SELECT * FROM MEMBER_TBL_02 ORDER BY CUSTNO ASC");
 			
 			resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
@@ -70,7 +71,7 @@ public class Dao {
 						resultSet.getString("CUSTNAME"),
 						resultSet.getString("PHONE"),
 						resultSet.getString("ADDRESS"),
-						resultSet.getString("JOINDATE"), 
+						(resultSet.getDate("JOINDATE")).toString(), 
 						resultSet.getString("GRADE"),
 						resultSet.getString("CITY")
 					)
