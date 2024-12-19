@@ -5,8 +5,7 @@ interface Calculate{
 }
 public class Ex04 {
 	public static void main(String[] args) {
-		Calculate c;
-		c=(a, b) -> {return a+b;};
+		Calculate c = (a, b) -> a+b;
 		int result = c.cal(3, 4);
 		System.out.println("result:"+result);
 		

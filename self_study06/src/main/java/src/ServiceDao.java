@@ -38,7 +38,7 @@ public class ServiceDao {
 		}
 	}
 	
-	public String memberView() {
+	public String memberViewForm() {
 		try {
 			ArrayList<HashMap<String, String>> memberList = new ArrayList<HashMap<String,String>>();
 			
@@ -88,7 +88,7 @@ public class ServiceDao {
 		return "member_view_form.jsp";
 	}
 
-	public String voteView() {
+	public String voteForm() {
 		try {
 			ArrayList<HashMap<String, String>> memberList = new ArrayList<HashMap<String,String>>();
 			
@@ -141,5 +141,10 @@ public class ServiceDao {
 			e.printStackTrace();
 		}
 		return "index.jsp";
+	}
+
+	public String voteViewForm() {
+		
+		return null;
 	}
 }

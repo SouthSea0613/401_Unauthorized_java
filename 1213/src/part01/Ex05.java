@@ -6,7 +6,7 @@ interface HowLong{
 }
 public class Ex05 {
 	public static void main(String[] args) {
-		HowLong hl = (s) -> s.length();
+		HowLong hl = s -> s.length();
 		System.out.println(hl.len("hello")); //5
 		fct(hl, "java");
 		hl = retFct();
@@ -14,7 +14,7 @@ public class Ex05 {
 	}
 
 	private static HowLong retFct() {
-		return (s) -> s.length();
+		return s -> s.length();
 	}
 
 	private static void fct(HowLong hl, String str) {

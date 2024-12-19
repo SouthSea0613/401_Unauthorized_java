@@ -6,6 +6,7 @@ import java.util.Random;
 interface RndGenerate{
 	int rand();  //입력값 없고, 난수를 반환
 }
+
 public class Ex06 {
 	public static void main(String[] args) {
 		RndGenerate gen = () ->{
